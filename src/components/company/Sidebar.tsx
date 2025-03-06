@@ -20,47 +20,46 @@ import {
   Settings,
   LogOut,
   Plus,
+  Building2,
 } from "lucide-react";
 
-interface SidebarProps {
-  userName?: string;
-  userEmail?: string;
-  userAvatar?: string;
+interface CompanySidebarProps {
   companyName?: string;
+  companyEmail?: string;
+  companyLogo?: string;
 }
 
-const Sidebar = ({
-  userName = "Kim Min-ji",
-  userEmail = "minjikim@example.com",
-  userAvatar = "",
+const CompanySidebar = ({
   companyName = "Tech Solutions Inc.",
-}: SidebarProps) => {
+  companyEmail = "admin@techsolutions.com",
+  companyLogo = "",
+}: CompanySidebarProps) => {
   const pathname = usePathname();
 
   const navItems = [
     {
       name: "Dashboard",
-      href: "/dashboard",
+      href: "/company/dashboard",
       icon: <LayoutDashboard className="h-5 w-5" />,
     },
     {
       name: "Tests",
-      href: "/dashboard/tests",
+      href: "/company/tests",
       icon: <FileCode className="h-5 w-5" />,
     },
     {
       name: "Candidates",
-      href: "/dashboard/candidates",
+      href: "/company/candidates",
       icon: <Users className="h-5 w-5" />,
     },
     {
       name: "Reports",
-      href: "/dashboard/reports",
+      href: "/company/reports",
       icon: <FileBarChart className="h-5 w-5" />,
     },
     {
       name: "Settings",
-      href: "/dashboard/settings",
+      href: "/company/settings",
       icon: <Settings className="h-5 w-5" />,
     },
   ];
@@ -70,11 +69,11 @@ const Sidebar = ({
       {/* Company Logo and Name */}
       <div className="flex items-center gap-2 px-6 py-6 border-b border-border">
         <div className="bg-primary/10 p-2 rounded-md">
-          <FileCode className="h-6 w-6 text-primary" />
+          <Building2 className="h-6 w-6 text-primary" />
         </div>
         <div>
           <h2 className="font-semibold text-lg">{companyName}</h2>
-          <p className="text-xs text-muted-foreground">Admin Dashboard</p>
+          <p className="text-xs text-muted-foreground">Company Dashboard</p>
         </div>
       </div>
 
@@ -106,22 +105,22 @@ const Sidebar = ({
         </div>
       </div>
 
-      {/* User Profile */}
+      {/* Company Profile */}
       <div className="mt-auto border-t border-border p-4">
         <div className="flex items-center gap-3">
           <Avatar>
-            {userAvatar ? (
-              <AvatarImage src={userAvatar} alt={userName} />
+            {companyLogo ? (
+              <AvatarImage src={companyLogo} alt={companyName} />
             ) : (
               <AvatarFallback>
-                {userName.slice(0, 2).toUpperCase()}
+                {companyName.slice(0, 2).toUpperCase()}
               </AvatarFallback>
             )}
           </Avatar>
           <div className="flex-1 overflow-hidden">
-            <p className="font-medium truncate">{userName}</p>
+            <p className="font-medium truncate">{companyName}</p>
             <p className="text-xs text-muted-foreground truncate">
-              {userEmail}
+              {companyEmail}
             </p>
           </div>
           <TooltipProvider>
@@ -142,4 +141,4 @@ const Sidebar = ({
   );
 };
 
-export default Sidebar;
+export default CompanySidebar;
