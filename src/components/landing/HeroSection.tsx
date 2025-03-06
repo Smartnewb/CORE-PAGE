@@ -11,6 +11,8 @@ interface HeroSectionProps {
   companyCtaText?: string;
   developerCtaText?: string;
   heroImage?: string;
+  onCompanyClick?: () => void;
+  onDeveloperClick?: () => void;
 }
 
 const HeroSection = ({
@@ -19,6 +21,8 @@ const HeroSection = ({
   companyCtaText = "For Companies",
   developerCtaText = "For Developers",
   heroImage = "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1200&q=80",
+  onCompanyClick = () => (window.location.href = "/dashboard"),
+  onDeveloperClick = () => (window.location.href = "/ide"),
 }: HeroSectionProps) => {
   return (
     <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted">
@@ -37,11 +41,20 @@ const HeroSection = ({
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 mt-6">
-              <Button size="lg" className="gap-2 group">
+              <Button
+                size="lg"
+                className="gap-2 group"
+                onClick={onCompanyClick}
+              >
                 {companyCtaText}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
-              <Button size="lg" variant="outline" className="gap-2">
+              <Button
+                size="lg"
+                variant="outline"
+                className="gap-2"
+                onClick={onDeveloperClick}
+              >
                 {developerCtaText}
                 <ArrowRight className="h-4 w-4" />
               </Button>

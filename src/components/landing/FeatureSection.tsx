@@ -109,7 +109,11 @@ const FeatureSection = ({
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="outline" className="w-full mt-2">
+                <Button
+                  variant="outline"
+                  className="w-full mt-2"
+                  onClick={() => (window.location.href = "/dashboard")}
+                >
                   Learn more
                 </Button>
               </CardContent>
@@ -118,10 +122,18 @@ const FeatureSection = ({
         </div>
 
         <div className="mt-16 text-center">
-          <Button size="lg" className="mr-4">
+          <Button
+            size="lg"
+            className="mr-4"
+            onClick={() => (window.location.href = "/dashboard")}
+          >
             Get Started
           </Button>
-          <Button variant="outline" size="lg">
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => (window.location.href = "/ide")}
+          >
             View Demo
           </Button>
         </div>

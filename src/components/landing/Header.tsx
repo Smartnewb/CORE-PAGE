@@ -36,7 +36,14 @@ const Header = ({
       <div className="container mx-auto h-full flex items-center justify-between px-4">
         {/* Logo and Brand */}
         <div className="flex items-center space-x-2">
-          <Link href="/" className="flex items-center space-x-2">
+          <Link
+            href="/"
+            className="flex items-center space-x-2"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = "/";
+            }}
+          >
             <div className="bg-primary/10 p-2 rounded-md">
               <Code className="h-6 w-6 text-primary" />
             </div>
@@ -47,14 +54,22 @@ const Header = ({
         {/* Navigation Links - Desktop */}
         <nav className="hidden md:flex items-center space-x-8">
           <Link
-            href="/features"
+            href="/dashboard"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = "/dashboard";
+            }}
           >
             Features
           </Link>
           <Link
-            href="/pricing"
+            href="/dashboard"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = "/dashboard";
+            }}
           >
             Pricing
           </Link>
@@ -119,10 +134,10 @@ const Header = ({
             </DropdownMenu>
           ) : (
             <>
-              <Button variant="ghost" onClick={onLoginClick}>
+              <Button variant="ghost" onClick={() => onLoginClick()}>
                 Login
               </Button>
-              <Button onClick={onSignupClick}>Sign Up</Button>
+              <Button onClick={() => onSignupClick()}>Sign Up</Button>
             </>
           )}
 

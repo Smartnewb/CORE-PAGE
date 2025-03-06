@@ -4,7 +4,7 @@ import TestsOverview from "@/components/dashboard/TestsOverview";
 
 export default function DashboardPage() {
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-background">
+    <>
       <Sidebar
         userName="Kim Min-ji"
         userEmail="minjikim@example.com"
@@ -84,6 +84,6 @@ export default function DashboardPage() {
           ]}
         />
       </div>
-    </div>
+    </>
   );
 }
