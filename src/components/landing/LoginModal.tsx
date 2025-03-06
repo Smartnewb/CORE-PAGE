@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +13,17 @@ import { Button } from "../ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
-import { AtSign, Building2, Eye, EyeOff, Lock, User } from "lucide-react";
+import {
+  AtSign,
+  Building2,
+  Eye,
+  EyeOff,
+  Lock,
+  User,
+  Loader2,
+} from "lucide-react";
+import { loginUser, registerUser, UserRole } from "@/lib/auth";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 interface LoginModalProps {
   isOpen?: boolean;
@@ -25,11 +36,26 @@ const LoginModal = ({
   onClose = () => {},
   defaultTab = "company",
 }: LoginModalProps) => {
+  const router = useRouter();
+  const { setUser } = useAuth();
   const [activeTab, setActiveTab] = useState<"company" | "developer">(
     defaultTab,
   );
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // Form state
+  const [companyEmail, setCompanyEmail] = useState("");
+  const [companyPassword, setCompanyPassword] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [companyConfirmPassword, setCompanyConfirmPassword] = useState("");
+
+  const [developerEmail, setDeveloperEmail] = useState("");
+  const [developerPassword, setDeveloperPassword] = useState("");
+  const [developerName, setDeveloperName] = useState("");
+  const [developerConfirmPassword, setDeveloperConfirmPassword] = useState("");
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -37,6 +63,101 @@ const LoginModal = ({
 
   const toggleSignUpMode = () => {
     setIsSignUp(!isSignUp);
+    setError("");
+  };
+
+  const handleCompanyLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const user = await loginUser(companyEmail, companyPassword, "company");
+      setUser(user);
+      onClose();
+      router.push("/dashboard");
+    } catch (err) {
+      setError("Invalid credentials. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeveloperLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const user = await loginUser(
+        developerEmail,
+        developerPassword,
+        "developer",
+      );
+      setUser(user);
+      onClose();
+      router.push("/developer-dashboard");
+    } catch (err) {
+      setError("Invalid credentials. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCompanySignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    if (companyPassword !== companyConfirmPassword) {
+      setError("Passwords do not match");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const user = await registerUser(
+        companyName,
+        companyEmail,
+        companyPassword,
+        "company",
+      );
+      setUser(user);
+      onClose();
+      router.push("/dashboard");
+    } catch (err) {
+      setError("Registration failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeveloperSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    if (developerPassword !== developerConfirmPassword) {
+      setError("Passwords do not match");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const user = await registerUser(
+        developerName,
+        developerEmail,
+        developerPassword,
+        "developer",
+      );
+      setUser(user);
+      onClose();
+      router.push("/developer-dashboard");
+    } catch (err) {
+      setError("Registration failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -76,7 +197,16 @@ const LoginModal = ({
               </DialogTitle>
             </DialogHeader>
 
-            <form className="space-y-4">
+            {error && (
+              <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm mb-4">
+                {error}
+              </div>
+            )}
+
+            <form
+              className="space-y-4"
+              onSubmit={isSignUp ? handleCompanySignup : handleCompanyLogin}
+            >
               {isSignUp && (
                 <div className="space-y-2">
                   <label htmlFor="company-name" className="text-sm font-medium">
@@ -88,6 +218,9 @@ const LoginModal = ({
                       id="company-name"
                       placeholder="Your company name"
                       className="pl-10"
+                      value={companyName}
+                      onChange={(e) => setCompanyName(e.target.value)}
+                      required
                     />
                   </div>
                 </div>
@@ -104,6 +237,9 @@ const LoginModal = ({
                     type="email"
                     placeholder="company@example.com"
                     className="pl-10"
+                    value={companyEmail}
+                    onChange={(e) => setCompanyEmail(e.target.value)}
+                    required
                   />
                 </div>
               </div>
@@ -122,6 +258,9 @@ const LoginModal = ({
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     className="pl-10 pr-10"
+                    value={companyPassword}
+                    onChange={(e) => setCompanyPassword(e.target.value)}
+                    required
                   />
                   <button
                     type="button"
@@ -152,13 +291,27 @@ const LoginModal = ({
                       type={showPassword ? "text" : "password"}
                       placeholder="••••••••"
                       className="pl-10"
+                      value={companyConfirmPassword}
+                      onChange={(e) =>
+                        setCompanyConfirmPassword(e.target.value)
+                      }
+                      required
                     />
                   </div>
                 </div>
               )}
 
-              <Button className="w-full" type="submit">
-                {isSignUp ? "Create Account" : "Login"}
+              <Button className="w-full" type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {isSignUp ? "Creating Account..." : "Logging in..."}
+                  </>
+                ) : isSignUp ? (
+                  "Create Account"
+                ) : (
+                  "Login"
+                )}
               </Button>
             </form>
 
@@ -196,7 +349,16 @@ const LoginModal = ({
               </DialogTitle>
             </DialogHeader>
 
-            <form className="space-y-4">
+            {error && (
+              <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm mb-4">
+                {error}
+              </div>
+            )}
+
+            <form
+              className="space-y-4"
+              onSubmit={isSignUp ? handleDeveloperSignup : handleDeveloperLogin}
+            >
               {isSignUp && (
                 <div className="space-y-2">
                   <label
@@ -211,6 +373,9 @@ const LoginModal = ({
                       id="developer-name"
                       placeholder="Your full name"
                       className="pl-10"
+                      value={developerName}
+                      onChange={(e) => setDeveloperName(e.target.value)}
+                      required
                     />
                   </div>
                 </div>
@@ -230,6 +395,9 @@ const LoginModal = ({
                     type="email"
                     placeholder="developer@example.com"
                     className="pl-10"
+                    value={developerEmail}
+                    onChange={(e) => setDeveloperEmail(e.target.value)}
+                    required
                   />
                 </div>
               </div>
@@ -248,6 +416,9 @@ const LoginModal = ({
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     className="pl-10 pr-10"
+                    value={developerPassword}
+                    onChange={(e) => setDeveloperPassword(e.target.value)}
+                    required
                   />
                   <button
                     type="button"
@@ -278,13 +449,27 @@ const LoginModal = ({
                       type={showPassword ? "text" : "password"}
                       placeholder="••••••••"
                       className="pl-10"
+                      value={developerConfirmPassword}
+                      onChange={(e) =>
+                        setDeveloperConfirmPassword(e.target.value)
+                      }
+                      required
                     />
                   </div>
                 </div>
               )}
 
-              <Button className="w-full" type="submit">
-                {isSignUp ? "Create Account" : "Login"}
+              <Button className="w-full" type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {isSignUp ? "Creating Account..." : "Logging in..."}
+                  </>
+                ) : isSignUp ? (
+                  "Create Account"
+                ) : (
+                  "Login"
+                )}
               </Button>
             </form>
 

@@ -1,6 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { logoutUser } from "@/lib/auth";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -32,6 +34,14 @@ const DeveloperSidebar = ({
   userAvatar = "",
 }: DeveloperSidebarProps) => {
   const pathname = usePathname();
+  const router = useRouter();
+  const { setUser } = useAuth();
+
+  const handleLogout = () => {
+    logoutUser();
+    setUser(null);
+    router.push("/");
+  };
 
   const navItems = [
     {
@@ -120,7 +130,12 @@ const DeveloperSidebar = ({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full"
+                  onClick={handleLogout}
+                >
                   <LogOut className="h-5 w-5 text-muted-foreground" />
                 </Button>
               </TooltipTrigger>
