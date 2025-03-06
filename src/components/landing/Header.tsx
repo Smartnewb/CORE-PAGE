@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { Button } from "../ui/button";
@@ -138,6 +140,13 @@ const Header = ({
                 Login
               </Button>
               <Button onClick={() => onSignupClick()}>Sign Up</Button>
+              <Button
+                variant="outline"
+                onClick={() => (window.location.href = "/company")}
+                className="ml-2"
+              >
+                Company Dashboard
+              </Button>
             </>
           )}
 

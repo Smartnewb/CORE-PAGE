@@ -1,140 +1,106 @@
 import React from "react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
-} from "../ui/card";
-import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
-import {
-  Code,
-  Cpu,
-  FileCode,
-  LayoutDashboard,
-  LineChart,
-  Lightbulb,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+} from "@/components/ui/card";
+import { FileCode, BarChart3, Brain, Users, ArrowRight } from "lucide-react";
 
-interface FeatureSectionProps {
-  features?: {
-    title: string;
-    description: string;
-    icon: React.ReactNode;
-    color?: string;
-  }[];
-}
-
-const FeatureSection = ({
-  features = [
-    {
-      title: "Company Dashboard",
-      description:
-        "Comprehensive analytics and test management for hiring teams",
-      icon: <LayoutDashboard className="h-10 w-10" />,
-      color: "bg-blue-100 text-blue-700",
-    },
-    {
-      title: "VS Code Style IDE",
-      description: "Familiar coding environment with real-time execution",
-      icon: <Code className="h-10 w-10" />,
-      color: "bg-purple-100 text-purple-700",
-    },
-    {
-      title: "AI Code Evaluation",
-      description:
-        "Automated assessment of code quality, performance, and problem-solving",
-      icon: <Cpu className="h-10 w-10" />,
-      color: "bg-green-100 text-green-700",
-    },
-    {
-      title: "Visual Analytics",
-      description: "3D radar charts and comprehensive skill visualization",
-      icon: <LineChart className="h-10 w-10" />,
-      color: "bg-amber-100 text-amber-700",
-    },
-    {
-      title: "Customizable Tests",
-      description: "Create tailored coding challenges for any skill level",
-      icon: <FileCode className="h-10 w-10" />,
-      color: "bg-indigo-100 text-indigo-700",
-    },
-    {
-      title: "AI-Powered Feedback",
-      description:
-        "Detailed insights and improvement suggestions for candidates",
-      icon: <Lightbulb className="h-10 w-10" />,
-      color: "bg-rose-100 text-rose-700",
-    },
-  ],
-}: FeatureSectionProps) => {
+const FeatureSection = () => {
   return (
-    <section className="w-full py-20 bg-slate-50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <Badge variant="outline" className="mb-4">
-            Features
-          </Badge>
-          <h2 className="text-4xl font-bold mb-4">
-            Everything you need to evaluate developers
-          </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Our platform combines powerful tools for both companies and
-            developers to streamline the technical assessment process
-          </p>
+    <section className="w-full py-12 md:py-24 bg-muted">
+      <div className="container px-4 md:px-6 mx-auto">
+        <div className="flex flex-col items-center justify-center space-y-4 text-center">
+          <div className="space-y-2">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+              Key Features
+            </h2>
+            <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              Our platform provides comprehensive tools for evaluating developer
+              skills with AI-powered analysis
+            </p>
+          </div>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <Card
-              key={index}
-              className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300"
-            >
-              <CardHeader>
-                <div
-                  className={cn(
-                    "w-16 h-16 rounded-lg flex items-center justify-center mb-4",
-                    feature.color,
-                  )}
-                >
-                  {feature.icon}
-                </div>
-                <CardTitle className="text-xl font-bold">
-                  {feature.title}
-                </CardTitle>
-                <CardDescription className="text-base mt-2">
-                  {feature.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button
-                  variant="outline"
-                  className="w-full mt-2"
-                  onClick={() => (window.location.href = "/dashboard")}
-                >
-                  Learn more
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+          <Card>
+            <CardHeader className="pb-2">
+              <FileCode className="h-6 w-6 mb-2 text-primary" />
+              <CardTitle>VS Code-like IDE</CardTitle>
+              <CardDescription>
+                Familiar coding environment with syntax highlighting and
+                debugging tools
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                Our web-based IDE provides a seamless coding experience with
+                real-time execution and testing capabilities.
+              </p>
+              <Button
+                variant="link"
+                className="p-0 mt-4 h-auto"
+                onClick={() => (window.location.href = "/developer")}
+              >
+                Try the IDE <ArrowRight className="h-4 w-4 ml-1" />
+              </Button>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
+              <Brain className="h-6 w-6 mb-2 text-primary" />
+              <CardTitle>AI Code Analysis</CardTitle>
+              <CardDescription>
+                Advanced algorithms to evaluate code quality and performance
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                Our AI analyzes code structure, efficiency, and problem-solving
+                approaches to provide comprehensive feedback.
+              </p>
+              <Button
+                variant="link"
+                className="p-0 mt-4 h-auto"
+                onClick={() => (window.location.href = "/company")}
+              >
+                Learn more <ArrowRight className="h-4 w-4 ml-1" />
+              </Button>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
+              <BarChart3 className="h-6 w-6 mb-2 text-primary" />
+              <CardTitle>Skill Visualization</CardTitle>
+              <CardDescription>
+                Interactive charts and reports to visualize candidate skills
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                Generate detailed reports with radar charts and performance
+                metrics to make data-driven hiring decisions.
+              </p>
+              <Button
+                variant="link"
+                className="p-0 mt-4 h-auto"
+                onClick={() => (window.location.href = "/company")}
+              >
+                View sample reports <ArrowRight className="h-4 w-4 ml-1" />
+              </Button>
+            </CardContent>
+          </Card>
         </div>
-
-        <div className="mt-16 text-center">
+        <div className="flex justify-center mt-12">
           <Button
             size="lg"
-            className="mr-4"
-            onClick={() => (window.location.href = "/dashboard")}
+            className="gap-2"
+            onClick={() => (window.location.href = "/company")}
           >
             Get Started
-          </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            onClick={() => (window.location.href = "/ide")}
-          >
-            View Demo
+            <ArrowRight className="h-4 w-4" />
           </Button>
         </div>
       </div>

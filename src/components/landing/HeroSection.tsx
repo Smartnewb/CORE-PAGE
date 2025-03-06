@@ -21,7 +21,7 @@ const HeroSection = ({
   companyCtaText = "For Companies",
   developerCtaText = "For Developers",
   heroImage = "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1200&q=80",
-  onCompanyClick = () => (window.location.href = "/dashboard"),
+  onCompanyClick = () => (window.location.href = "/company"),
   onDeveloperClick = () => (window.location.href = "/ide"),
 }: HeroSectionProps) => {
   return (

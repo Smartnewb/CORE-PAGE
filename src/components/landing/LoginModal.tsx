@@ -157,7 +157,11 @@ const LoginModal = ({
                 </div>
               )}
 
-              <Button className="w-full" type="submit">
+              <Button
+                className="w-full"
+                type="button"
+                onClick={() => (window.location.href = "/company")}
+              >
                 {isSignUp ? "Create Account" : "Login"}
               </Button>
             </form>
@@ -283,7 +287,11 @@ const LoginModal = ({
                 </div>
               )}
 
-              <Button className="w-full" type="submit">
+              <Button
+                className="w-full"
+                type="button"
+                onClick={() => (window.location.href = "/developer")}
+              >
                 {isSignUp ? "Create Account" : "Login"}
               </Button>
             </form>
